@@ -1,0 +1,39 @@
+.taskbar{
+    background-color: rgba(47,60,72,0.9);
+    display: flex;
+    justify-content: right;
+    align-content: space-between;
+    padding-inline: 5px;
+    
+}
+.btnTaskBarConfirmar{
+    padding: 5px;
+    margin-inline-start: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: rgb(104, 207, 173);
+    border: solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btnTaskBarCancelar{
+    padding: 5px;
+    margin-inline-start: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: rgb(248, 101, 101);
+    border: solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btnTaskBarConfirmar:hover{
+    background-color: cadetblue;
+}
+
+.btnTaskBarCancelar:hover{
+    background-color: brown;
+}
