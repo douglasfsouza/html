@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <title>Electra Systems</title>
+    <body>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>     
+        
+        <P>Captcha V2</P>
+         
+        <center>
+            
+            <label>Senha:</label>
+            <input type="password" id="senha"/>
+            <button onclick="confirmPassword()">Confirmar</button>
+            <button onclick="verifyResponse()">Verificar captcha</button>
+            
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <div class="g-recaptcha" data-sitekey="6LeCUPcpAAAAAMVE6biK9iV28hIsa9_WjqwveAnq"></div>
+
+        </center>    
+    </body>
+
+    <script type="text/javascript">
+        var onloadCallback = function() {
+          alert("reCAPTCHA está pronto p/ ser usado!");
+        };
+
+        function confirmPassword() {
+            var senha = document.getElementById("senha").value;
+            if (senha == "123") {
+                alert("Senha correta");
+            } else {
+                alert("Senha incorreta");
+            }
+        }
+
+        function verifyResponse() {
+            var response = grecaptcha.getResponse();
+            if (response.length == 0) {
+                alert("Por favor, confirme o captcha");
+            } else {
+                alert("Captcha confirmado");
+            }
+        }
+    </script>
+    
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+</html>

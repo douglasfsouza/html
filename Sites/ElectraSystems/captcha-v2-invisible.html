@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <title>Electra Systems</title>
+    <body>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>         
+        <P>CAPTCHA V2 - invisible</P>
+         
+        <center>
+            <form method="post" id="demo-form">
+                <label>Senha:</label>
+                <input type="password" id="senha"/>
+                <button onclick="confirmPassword()">Confirmar</button>
+                <button class="g-recaptcha" 
+                        data-sitekey="6LePZ_cpAAAAAKRdwwxnIACUrllEsyUTmv_UO6LR" 
+                        data-callback='onSubmit' 
+                        data-action='submit'>Submit</button>
+                
+                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+            </form>                        
+        </center>    
+    </body>
+
+    <script type="text/javascript">
+       
+        function confirmPassword() {
+            var senha = document.getElementById("senha").value;
+            if (senha == "123") {
+                alert("Senha correta");
+            } else {
+                alert("Senha incorreta");
+            }
+        }   
+        
+        function onSubmit(token){
+            alert("Ready to Submit!!");
+        }
+
+    </script>
+    
+     
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exemplo de hCaptcha</title>
+<script src="https://hcaptcha.com/1/api.js" async defer></script>
+</head>
+<body>
+
+<h1>Exemplo de hCaptcha</h1>
+  <!-- Local onde o captcha será renderizado -->
+  <div class="h-captcha" data-sitekey="b6ee50e5-79f7-4d5d-b208-9215843990af"></div>
+  <br/>
+  <input type="submit" value="Submit">
+  <button onclick="verifyResponse()">Verificar</button>
+
+<script>
+ 
+
+// Função de callback para verificar se o captcha foi resolvido
+
+function verifyResponse() {
+  var response = grecaptcha.getResponse();
+  if (response.length == 0) {
+    alert("Por favor, confirme o captcha");
+  } else {
+    console.log("key:" + response);
+    alert("Captcha confirmado");
+  }
+}
+</script>
+
+</body>
+</html>

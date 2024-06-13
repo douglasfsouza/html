@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <title>Electra Systems</title>
+    <body>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>
+        <p >&nbsp; </p>   
+        
+        <p>CAPTCHA V3</p>
+         
+        <center>
+            <form method="post" id="demo-form">
+                <label>Senha:</label>
+                <input type="password" id="senha"/>
+                <button onclick="confirmPassword()">Confirmar</button>
+                <button class="g-recaptcha" 
+                        data-sitekey="6LdqafcpAAAAAIDjz6tmJ7TBmFzk3R10RGxnvLfR" 
+                        data-callback='onSubmit' 
+                        data-action='submit'>Submit</button>
+
+            </form>                        
+            
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+             
+
+        </center>    
+    </body>
+
+    <script type="text/javascript">
+       
+        function confirmPassword() {
+            var senha = document.getElementById("senha").value;
+            if (senha == "123") {
+                alert("Senha correta");
+            } else {
+                alert("Senha incorreta");
+            }           
+        }
+
+        function onSubmit(token) {
+            alert("submit");
+            document.getElementById("demo-form").submit();
+        }
+
+        function verifyResponse() {
+            var response = grecaptcha.getResponse();
+            if (response.length == 0) {
+                alert("Por favor, confirme o captcha");
+            } else {
+                alert("Captcha confirmado");
+            }
+        }
+    </script>
+    
+     
+
+</html>
