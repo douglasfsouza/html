@@ -1,0 +1,206 @@
+.dropzone,
+.dropzone-previews {
+	border: 1px solid #C0C0C0;
+	width:100%;
+}
+
+.dz-preview * {
+	font-family: Arial,Verdana,sans-serif;
+	font-size: 11px!important;
+}
+.dropzone-previews .dz-preview .dz-error-message{
+	zindex: 1000;
+    opacity: 1;
+  	-ms-filter: none;
+  	filter: none;
+}
+.dropzone-previews-toolbar {
+	width: 100%;
+	border-bottom: 1px solid #C0C0C0;
+	min-height: 35px;
+	background-color: #F2F7FF;
+	line-height: 35px;
+	vertical-align: middle;
+}
+
+.dropzone a.dz-remove,
+.dropzone-previews a.dz-remove {
+	border: none;
+/*   text-decoration: none; */
+  display: inline-block;
+/*   text-align: center; */
+/*   color: #666; */
+  width: 28px;
+  line-height: 28px;
+  height: 24px;
+  margin:0px 0px 0px 0px;
+  background: url("../../img/dropzone/ico_remove.png") no-repeat 5px 6px; 
+/*   padding-left:16px; */
+}
+
+.dropzone a.dz-mover-abaixo,
+.dropzone-previews a.dz-mover-abaixo{
+/*   border: 1px solid #C8C8C8; */
+/*   text-decoration: none; */
+  display: inline-block;
+/*   text-align: center; */
+/*   color: #666; */
+  width: 28px;
+  line-height: 28px;
+  height: 24px;
+/*   margin:2px 0px 0px 0px; */
+  background: url("../../img/dropzone/ico_down.png") no-repeat 7px 6px; 
+/*   padding-left:16px; */
+}
+.dropzone a.dz-mover-acima,
+.dropzone-previews a.dz-mover-acima{
+/*   border: 1px solid #C8C8C8; */
+/*   text-decoration: none; */
+  display: inline-block;
+/*   text-align: center; */
+/*   color: #666; */
+  width: 28px;
+  line-height: 28px;
+  height: 24px;
+/*   margin:2px 0px 0px 0px; */
+  background: url("../../img/dropzone/ico_up.png") no-repeat 7px 6px; 
+/*   padding-left:16px; */
+}
+
+.dropzone a.dz-remove:hover,
+.dropzone-previews a.dz-remove:hover,
+.dropzone a.dz-mover-abaixo:hover,
+.dropzone-previews a.dz-mover-abaixo:hover,
+.dropzone a.dz-mover-acima:hover,
+.dropzone-previews a.dz-mover-acima:hover,
+.dropzone-previews-toolbar a.dz-send:hover,
+.dropzone-previews-toolbar a.dz-add:hover{
+  color: #666;
+  border: 1px solid  	#909090;
+}
+
+.dropzone-previews-toolbar a.dz-add{
+  border: 1px solid #C8C8C8;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  color: #666;
+  width: 100px;
+  line-height: 29px;
+  height: 29px;
+  margin:2px 0px 0px 2px;
+  background: #ECF4FE url("../../img/dropzone/ico_add.gif") no-repeat 5px 6px; 
+  padding-left:16px;
+}
+.dropzone-previews-toolbar a.dz-send {
+  border: 1px solid #C8C8C8;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  color: #666;
+  width: 100px;
+  line-height: 29px;
+  height: 29px;
+  margin:2px 0px 0px 2px;
+  background: #ECF4FE url("../../img/dropzone/ico_send.jpg") no-repeat 5px 6px; 
+  padding-left:16px;
+}
+.dropzone-previews-toolbar a.dz-limpar {
+  border: 1px solid #C8C8C8;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  color: #666;
+  width: 100px;
+  line-height: 29px;
+  height: 29px;
+  margin:2px 0px 0px 2px;
+  background: #ECF4FE url("../../img/dropzone/ico_clear.gif") no-repeat 5px 6px; 
+  padding-left:16px;
+}
+
+div.dz-colula-botoes,
+div.dz-colula-upload,
+div.dz-colula-dados {
+	float: left;
+}
+
+div.dz-colula-botoes {
+	width: 28px;
+}
+
+div.dz-colula-upload {
+	width: 300px;
+}
+
+div.dz-colula-dados {
+	width: calc(100% - 328px);
+	min-width: 360px;
+}
+
+div.dz-ordem {
+	border:2px solid silver;
+	border-radius:50%;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%; 
+	width:25px; height:25px;
+	text-align: center; 
+	vertical-align: middle;
+	line-height: 22px;
+	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+	#font-size: 80%;
+}
+
+div.dz-ordem input {
+	margin:3px 0px 0px -2px; 
+	padding:0px; 
+	border:none; 
+	width:25px;
+	background: transparent; 
+	text-align: center;
+	font-size: 90%;
+}
+
+div.dz-tabela-upload {
+	padding-bottom: 10px;
+}
+
+div.dz-tabela-upload:empty {
+	padding-bottom: 0px;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename *,
+.dropzone-previews .dz-preview .dz-details .dz-filename *{
+  font-size: 14px!important;
+  font-weight: bold;
+}
+ul.aviso {
+	padding: 10px 20px 10px 20px;
+	background-color: #F2DEDE;
+	color: #C34A48;
+	list-style: none;
+	border: 1px dotted #C34A48;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+ul.aviso:empty {
+	padding: 0px;
+	border: none;
+}
+
+ul.aviso li {
+	padding-bottom: 3px;
+}
+.infoGlobal{
+	padding: 10px 20px 10px 20px !important;
+	background-color: #C2E9F3 !important;
+	color: #3A87AD !important;
+	border: 1px dotted #3A87AD !important;
+	font-size: 0.8em !important;
+	font-weight: bold !important;
+}
+.colunaLabel{
+	width:120px;
+}

@@ -1,0 +1,640 @@
+/*
+  IBPM - Ferramenta de produtividade Java
+  Copyright (c) 1986-2009 Infox Tecnologia da Informação Ltda.
+ 
+  Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo 
+  sob os termos da GNU GENERAL PUBLIC LICENSE (GPL) conforme publicada pela 
+  Free Software Foundation; versão 2 da Licença.
+  Este programa é distribuído na expectativa de que seja útil, porém, SEM 
+  NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU 
+  ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA.
+  
+  Consulte a GNU GPL para mais detalhes.
+  Você deve ter recebido uma cópia da GNU GPL junto com este programa; se não, 
+  veja em http://www.gnu.org/licenses/  
+*/
+.brasao {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -180px;
+	margin-left: -200px;
+}
+
+.header {
+	width: 100%;
+	height: 100px;
+	color: #FFF;
+}
+
+.logo {
+	margin-top: 7px;
+	margin-left: 15px;
+	float: left;
+}
+
+.systemName {
+	margin-left: 20%;
+	font-weight: bold;
+	font-size: 11px;
+	text-align: center;
+	float: left;
+}
+
+.systemName .title, .subTitle {
+	color: #FFF;
+	font-family: Arial, sans-serif;
+}
+
+.systemName .title {
+	font-size: 24px;
+}
+
+.systemName .subTitle {
+	font-size: 18px;
+}
+
+.formPesquisa {
+	float: right;
+}
+
+.usuarioPapel {
+	float: right;
+	clear: both; margin-top : -33px;
+	text-align: right;
+	margin-right: 2px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin-top: -33px;
+}
+
+.usuarioPapel #nomeUsuario {
+	float: right;
+}
+
+.usuarioPapel #comboPapeis {
+	float: right;
+	clear: both;
+}
+
+.nodeName {
+	float: right;
+	margin-top: -55px;
+	margin-right: 3px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	clear: both;
+}
+
+.conteudo {
+	float: left;
+	width: 100%;
+}
+
+footer {
+	padding: 0 10px;
+	width: 100%;
+	height: 25px;
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
+	position: fixed;
+	bottom: 0;
+}
+
+footer .footerLeft {
+	float: left;
+	margin-top: 5px;
+	font-family: Arial, sans-serif;
+}
+
+footer .footerRight {
+	float: right;
+	margin-top: 5px;
+	padding-right: 20px;
+}
+
+footer .footerRight div, footer .footerLeft div {
+	float: left;
+}
+
+.contentArea {
+	overflow: auto;
+	min-width: 980px;
+}
+
+.leftPad {
+	margin-left: 255px !important;
+}
+
+.name {
+	vertical-align: top;
+	font-weight: bold;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+	font-size: 11px;
+	color: black;
+}
+
+/*CSS para resumo do rascunho*/
+.caixaRascunho {
+	position: relative;
+	font-family: sans-serif;
+	display: block;
+	width: 350px;
+	height: 18em;
+	overflow: hidden;
+}
+
+.caixaRascunho .textoResumoRascunho {
+	color: #333;
+	padding: 20px;
+	width: 204px;
+	overflow: hidden;
+	background: white;
+	font-size: .95em;
+	line-height: 1;
+	text-align: justify;
+}
+
+.caixaRascunho .textoResumoRascunho:after {
+	content: ' ';
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 1em;
+	bottom: 0px;
+	left: 0px;
+	background: white;
+}
+
+.caixaRascunho .textoResumoRascunho:before {
+	content: '...';
+	text-align: right;
+	position: absolute;
+	display: block;
+	width: 2em;
+	height: 1em;
+	bottom: 1em;
+	right: 20px;
+	background: -moz-linear-gradient(left, rgba(224, 224, 224, 0) 0%,
+		rgba(224, 224, 224, 1) 38%, rgba(224, 224, 224, 1) 99%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(224,
+		224, 224, 0)), color-stop(38%, rgba(224, 224, 224, 1)),
+		color-stop(99%, rgba(224, 224, 224, 1)));
+	background: -webkit-linear-gradient(left, rgba(224, 224, 224, 0) 0%,
+		rgba(224, 224, 224, 1) 38%, rgba(224, 224, 224, 1) 99%);
+	background: -o-linear-gradient(left, rgba(224, 224, 224, 0) 0%,
+		rgba(224, 224, 224, 1) 38%, rgba(224, 224, 224, 1) 99%);
+	background: -ms-linear-gradient(left, rgba(224, 224, 224, 0) 0%,
+		rgba(224, 224, 224, 1) 38%, rgba(224, 224, 224, 1) 99%);
+	background: linear-gradient(to right, rgba(224, 224, 224, 0) 0%,
+		rgba(224, 224, 224, 1) 38%, rgba(224, 224, 224, 1) 99%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e0e0e0',
+		endColorstr='white', GradientType=1);
+}
+
+/* CSS para as Bordas Arredondadas */
+.bordaBox {
+	background: transparent; 
+	margin:0 auto;
+}
+.bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b4, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b, .bordaBox .b4b {
+	display:block; 
+	overflow:hidden; 
+	font-size:1px;
+}
+.bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b {
+	height:1px;
+}
+.bordaBox .b2, .bordaBox .b3, .bordaBox .b4 {
+	background:#FFFFFF; 
+	border-left:1px solid #999; 
+	border-right:1px solid #999;
+}
+.bordaBox .b1 {	margin:0 5px; background:#999; }
+.bordaBox .b2 {	margin:0 3px; border-width:0 2px; }
+.bordaBox .b3 { margin:0 2px; }
+.bordaBox .b4 { height:2px; margin:0 1px; }
+.bordaBox .conteudo {
+	padding:5px;
+	display:block; 
+	text-align:left;
+	background-color:#FFFFFF; 
+	border-left:1px solid #999; 
+	border-right:1px solid #999;
+	float: none;
+	width: 99.1%;
+}	
+
+.bordaBox .tituloPagina {		
+	text-align: left; 
+	font-weight: bold;
+	font-size: 14pt;
+	color: #ffffff;
+	position:absolute;
+	right: 5%;
+	margin-top: 4px;	
+}
+
+#divOverflow {
+	position:relative;
+	width:100%;
+	height:100%;
+	overflow:auto;
+}
+
+/* CSS para a Pagina */
+img {
+	border: none;
+}
+
+form {
+	display: inline;
+}
+
+input {
+	border: 0px;
+	background-color: transparent;
+}
+
+a:active, a:link, a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #888888;
+}
+
+#login input, #login textarea, #login select {
+	width: 200px;
+}
+
+.propertyView {
+	min-width: 250px;
+	min-height: 35px;
+	margin-top: 5px;
+	margin-right: 10px;
+	display: table;
+	overflow: visible;
+	float: left;
+}
+
+.propertyView .name {
+	float: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.propertyView .value {
+	float: none;
+	padding: 0px;
+}
+
+.propertyView input[type="radio"] {
+	width: 13px;
+}
+
+.propertyView input[type="checkbox"] {
+	width: 15px;
+}
+
+/* Original
+ 		.propertyView input, .propertyView select {
+			width: 250px;
+		}
+		*/
+.readOnly {
+	color: gray !important;
+}
+
+#processoDadosForm .propertyView input, #processoDadosForm .propertyView select
+	{
+	width: 500px;
+}
+
+.propertyView textarea {
+	width: 350px !important;
+}
+
+.checkbox {
+	width: 14px !important;
+}
+
+.panelGridCell {
+	vertical-align: top;
+}
+
+.grid {
+	overflow: auto;
+}
+
+.tableControl {
+	width: 100%;
+}
+
+.tableControl {
+	text-align: right;
+}
+
+.actionButtons {
+	float: none;
+}
+
+.footer {
+	text-align: center;
+	font-size: 10px;
+}
+
+.rich-table {
+	width: 99%;
+}
+
+h1 {
+	font-family: Arial, sans-serif;
+	color: #578BB8;
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+body {
+	margin: 0px;
+	font-family: Arial, sans-serif;
+	color: #616161;
+	background-color: #E6ECF4;
+}
+
+table.banner {
+	margin: 0px 0px 0px 0px;
+	border-bottom-width: 0px;
+	width: 100%;
+}
+
+th.banner, td.banner {
+	color: #555555;
+	font-size: 20pt;
+}
+
+.pageBody {
+	padding: 5px;
+}
+
+.panel {
+	padding: 2px;
+	overflow: auto;
+}
+
+.columnHeader:hover {
+	color: #FF6600;
+}
+
+.viewColumn {
+	vertical-align: top;
+}
+
+.value {
+	float: left;
+	padding: 5px;
+	font-size: 11px;
+	color: black;
+}
+
+.message {
+	padding: 5px;
+	top: 47px;
+	color: green;
+	list-style-type: none;
+	text-align: center;
+	position: absolute;
+	right: 10px;
+	font-size: 12pt;
+}
+
+.error {
+	padding: 2px;
+	border: 1px solid red;
+	background-color: lightYellow;
+	display: block;
+}
+
+.errorFields {
+	margin-left: 20px;
+	margin-top: 5px;
+	float: left;
+	padding: 2px;
+	border: 1px solid red;
+	background-color: lightYellow;
+}
+
+.errors {
+	color: red;
+}
+
+.errors span.rich-inplace-input {
+	border: 1px solid red !important;
+}
+
+.errors input {
+	border: 1px solid red;
+}
+
+.errors textarea {
+	border: 1px solid red;
+}
+
+.leftPanel {
+	width: 100%;
+}
+
+.rightPanel {
+	width: 100%;
+	float: right;
+}
+
+.activeRow {
+	background-color: #F0F8FF !important;
+}
+
+.dr-stglpnl-b {
+	padding: 0px 5px 5px 5px;
+}
+
+.inativo {
+	text-decoration: line-through;
+	color: red;
+}
+
+.expirado {
+	color: red;
+}
+
+.nivelpai {
+	font-size: 115%;
+	font-weight: bolder;
+}
+
+.dr-tree {
+	background-color: white;
+}
+
+.folderHighlighted {
+	text-decoration: none !important;
+	color: black !important;
+}
+
+.folderSelected {
+	border: solid 1px transparent !important;
+}
+
+.dr-table-footercell {
+	text-align: center;
+	padding: 0px
+}
+
+.dr-table-subfootercell {
+	text-align: center;
+}
+
+.highlight {
+	font-weight: bold;
+}
+
+#help .highlight {
+	background-color: #ffffaa;
+}
+
+#pagina .highlight {
+	background-color: #ffffaa;
+}
+
+.defaultCell {
+	padding: 2px 3px 0px 3px;
+}
+
+.painelLog {
+	width: 350px;
+	background: transparent;
+	border: none;
+}
+
+.painelLoginHeader {
+	background-color: transparent;
+	background-image: none;
+	font-size: 14pt;
+	color: black;
+	border: none;
+}
+
+.positionImg {
+	position: absolute;
+	left: 10px;
+	top: 121px;
+	z-index: 100;
+}
+
+.rich-spinner-button {
+	height: 7px;
+	width: 13px !important;
+}
+
+/*Retira o sombreamento do ModalPanel*/
+.noMaskClass .rich-mpnl-mask-div {
+	display: none;
+}
+
+.columnDataListToolBar {
+	/*clear:left;*/
+	width: 40px;
+	padding: 2px 0px 0px 0px;
+	text-align: center;
+	border: solid 1px;
+	border-color: #CCCCCC;
+}
+
+.transpToolBar {
+	width: 100%;
+	text-align: center;
+	opacity: 0.30;
+	filter: alpha(opacity = 30);
+}
+
+.transpToolBar:hover {
+	width: 100%;
+	text-align: center;
+	opacity: 1.0;
+	filter: alpha(opacity = 100);
+}
+
+img.disabled {
+	opacity: 0.3;
+	filter: alpha(opacity = 3);
+}
+
+.transparency {
+	background-color: transparent;
+	border: none;
+}
+
+/*CSS table lembrete*/
+.tabelaSemBorda.rich-table {
+	border-width: 0px !important;
+	border-bottom-width: 10px;
+	border-left: thin;
+	border-left-style: solid;
+}
+
+.tabelaSemBorda .rich-table-cell {
+	border-width: 0px 0px 4px 0px !important;
+	border-style: none !important;
+	padding: 0px 0px 4px 0px !important;
+}
+
+.cor.rich-table-row {
+	background: #eee;
+}
+
+.fundoLembrete {
+	height: 100%;
+}
+
+.labelHeaderAlinhaEsquerda {
+	text-align: left;
+}
+
+.formatacaoParaDropDowMenuNumeroProcessoMascaras>div>div {
+	left: -250px !important;
+}
+
+table.downloadPjeOfficeTable {
+    border-collapse: collapse;
+    color: black;
+}
+table.downloadPjeOfficeTable {
+    margin: 1em 0;
+    background-color: #f9f9f9;
+    border: 1px #aaa solid;
+    border-collapse: collapse;
+    color: black;
+}
+table.downloadPjeOfficeTable > tr > th, table.downloadPjeOfficeTable > * > tr > th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+table.downloadPjeOfficeTable > tr > th, table.downloadPjeOfficeTable > tr > td, table.downloadPjeOfficeTable > * > tr > th, table.downloadPjeOfficeTable > * > tr > td {
+    border: 1px #aaa solid;
+    padding: 0.2em;
+}
+.modal-scroll-y .rich-mpnl-panel {
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	overflow-y: auto;
+}
+.tachadoVermelho{
+	text-decoration: line-through;
+	color:red;
+}

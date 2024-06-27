@@ -1,0 +1,675 @@
+var dropzone = null;
+
+/**
+ * Carrega uma nova instância do dropzone, se j&aacute; houver uma instância na p&aacute;gina o 
+ * dropzone ser&aacute; sincronizado com os componentes j&aacute; dispon&iacute;veis na tela.
+ */
+function acaoCarregarDropzone(onclickaddfile) {
+	var context = jQuery("input[name='context']").val();
+	var cid = jQuery("input[name='cid']").val();
+	var mimes = jQuery("input[name='mimes']").val();
+	var mimesEhSize = jQuery("input[name='mimesEhSizes']").val();
+	var quantidadeProcessoDocumento = jQuery("input[name='quantidadeProcessoDocumento']").val();
+	
+	if (quantidadeProcessoDocumento == 0) {
+		acaoDestruirDropzone();
+	}
+
+	if (dropzone != null) {
+		 dropzone.sincronizar();
+		 acaoSincronizarHTMLComFiles();
+	} else {
+		var form = jQuery("div[id$=dropzone]").closest("form");
+		var tipos = {
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Microsoft Word (OpenXML)',
+			'audio/aac': 'AAC audio file',
+			'application/x-abiword': 'AbiWord document',
+			'application/octet-stream': 'Archive document (multiple files embedded)',
+			'video/x-msvideo': 'AVI: Audio Video Interleave',
+			'application/vnd.amazon.ebook': 'Amazon Kindle eBook format',
+			'application/octet-stream': 'Any kind of binary data',
+			'application/x-bzip': 'BZip archive',
+			'application/x-bzip2': 'BZip2 archive',
+			'application/x-csh': 'C-Shell script',
+			'text/css': 'Cascading Style Sheets (CSS)',
+			'text/csv': 'Comma-separated values (CSV)', 
+			'application/msword': 'Microsoft Word', 
+			'application/vnd.ms-fontobject': 'MS Embedded OpenType fonts', 
+			'application/epub+zip': 'Electronic publication (EPUB)', 
+			'image/gif': 'Graphics Interchange Format (GIF)', 
+			'text/html': 'HyperText Markup Language (HTML)', 
+			'image/x-icon': 'Icon format', 
+			'text/calendar': 'iCalendar format', 
+			'application/java-archive': 'Java Archive (JAR)', 
+			'image/jpeg': 'JPEG images', 
+			'application/javascript': 'JavaScript (ECMAScript)', 
+			'application/json': 'JSON format', 
+			'audio/midi': 'Musical Instrument Digital Interface (MIDI)', 
+			'video/mpeg': 'MPEG Video',
+			'application/vnd.apple.installer+xml': 'Apple Installer Package',
+			'application/vnd.oasis.opendocument.presentation': 'OpenDocument presentation document', 
+			'application/vnd.oasis.opendocument.spreadsheet': 'OpenDocument spreadsheet document', 
+			'application/vnd.oasis.opendocument.text': 'OpenDocument text document', 
+			'audio/ogg': 'OGG audio', 
+			'video/ogg': 'OGG video', 
+			'application/ogg': 'OGG',
+			'font/otf': 'OpenType font',
+			'image/png': 'Portable Network Graphics',
+			'application/pdf': 'Adobe Portable Document Format (PDF)', 
+			'application/vnd.ms-powerpoint': 'Microsoft PowerPoint', 
+			'application/x-rar-compressed': 'RAR archive', 
+			'application/rtf': 'Rich Text Format (RTF)', 
+			'application/x-sh': 'Bourne shell script', 
+			'image/svg+xml': 'Scalable Vector Graphics (SVG)', 
+			'application/x-shockwave-flash': 'Small web format (SWF) or Adobe Flash document', 
+			'application/x-tar': 'Tape Archive (TAR)',
+			'image/tiff': 'Tagged Image File Format (TIFF)',
+			'application/typescript': 'Typescript file', 
+			'application/typescript': 'TrueType Font',
+			'application/vnd.visio': 'Microsoft Visio', 
+			'audio/x-wav': 'Waveform Audio Format', 
+			'audio/webm': 'WEBM audio', 
+			'video/webm': 'WEBM video', 
+			'image/webp': 'WEBP image', 
+			'font/woff': 'Web Open Font Format (WOFF)', 
+			'font/woff2': 'Web Open Font Format (WOFF)', 
+			'application/xhtml+xml': 'XHTML', 
+			'application/vnd.ms-excelapplication/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Microsoft Excel',
+			'application/xml': 'XML',
+			'application/vnd.mozilla.xul+xml': 'XUL', 
+			'application/zip': 'ZIP archive',
+		};
+		
+		dropzone = new Dropzone("#"+ form.attr("id"), {
+			url : context + "/seam/resource/upload?cid="+ cid,
+			previewsContainer : "div[id$=dz-tabela-upload]",
+			clickable : "a[id$=commandLinkAdicionar]", 
+			autoProcessQueue : false,
+			parallelUploads : 200,
+			uploadMultiple : false,
+			addRemoveLinks : true,
+			hiddenFileInput: false,
+			autoDiscover: false,
+			myAwesomeDropzone: false,
+			ignoreHiddenFiles: false,
+			maxFileNameSize: 100,
+			acceptedFiles: mimes,//"application/pdf,.pdf,audio/mpeg,audio/ogg,audio/vorbis,image/png,audio/mp4,video/quicktime", 
+			maxFilesize: mimesEhSize, //"application/pdf:3,.pdf:3,audio/mpeg:5,audio/ogg:10,audio/vorbis:5,image/png:3,audio/mp4:10,video/quicktime:10",
+			dictDefaultMessage: "Solte os arquivos aqui para fazer o upload.",
+			dictFallbackMessage: "Seu browser n&atilde;o suporta drag and drop.",
+			dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+			dictFileTooBig: "N&atilde;o foi poss&iacute;vel anexar o arquivo '{{filename}}': N&atilde;o &eacute; poss&iacute;vel fazer upload de arquivo de tamanho ({{filesize}}MiB). M&aacute;ximo permitido: {{maxFilesize}}MiB.",
+			dictInvalidFileType: "N&atilde;o foi poss&iacute;vel anexar o arquivo '{{filename}}': Tipo '{{filetype}}' inv&aacute;lido.",
+			dictInvalidFileName: "Favor renomear o arquivo selecionado. N&atilde;o &eacute; permitido incluir nome(s) com caractere especial.",
+			dictResponseError: "Servidor retornou erro: {{statusCode}}.",
+			dictCancelUpload: "Cancelar",
+			dictCancelUploadConfirmation: "Deseja cancelar este upload?",
+			dictRemoveFile: "Remover",
+			dictRemoveFileConfirmation: null,
+			dictMaxFilesExceeded: "Voc&ecirc; n&atilde;o pode fazer upload de mais arquivos.",
+			dictMaxFilesNotFound: "N&atilde;o foi encontrado o maxFilesize para o tipo {{filetype}}.",
+			dictMaxFileNameSizeError: "N&atilde;o foi poss&iacute;vel anexar o arquivo '{{filename}}': Nome do arquivo excedeu '{{fileNameSize}}' caracteres.",
+			dictFileNameExistsError: "N&atilde;o foi poss&iacute;vel anexar o arquivo '{{filename}}': Nome do arquivo j&aacute; enviado.",
+			dictFileSizeZeroError: "N&atilde;o foi poss&iacute;vel anexar o arquivo '{{filename}}': Arquivo vazio.",
+			errorTemplate: "<li class=\"aviso\" style=\"font-size: 1.3em !important;\">{{mensagemErro}}</li>",
+			addedfile: function (file) {
+				
+			},
+			init: function() {
+				this.on("removedfile", function(file) {
+					console.log("removedfile");	
+					var preview = jQuery(file.previewElement);
+					var button = preview.find("a[id$=commandLinkRemover]");
+					button.click();
+				}),
+				this.on("completemultiple", function() {
+					console.log("completemultiple");	
+				}),
+				this.on("processing", function(file) {
+					console.log("processing");	
+				}),
+			    this.on("success", function(file, message, e) {
+			    	console.log("success");	
+			    	var array = message.arquivos;
+					var fileRequest = array.filter(
+							function(array) {
+								return array.nome.replace(/\s+/g, " ") == file.name.replace(/\s+/g, " ");
+							}
+					);
+					if (fileRequest.length > 0) fileRequest = fileRequest[0];
+					if(onclickaddfile){
+						onclickaddfile(fileRequest, file);
+					}else{
+						this.upload(fileRequest, file);
+					}
+					
+				}),
+				this.on("onchangeinputfilebeforeaddfile", function(files) {
+					var ul = jQuery("ul.aviso");
+					ul.html("");
+				}),
+			    this.on("onchangeinputfileafteraddfile", function(files) {
+			    	var json = [];
+			    	
+			    	for (var i = 0; i < files.length; i++) {
+						var file = files[i];
+						if (file.status != Dropzone.ERROR) {
+							json.push({
+								"nome": file.name,
+								"tamanho": file.size,
+								"mime": file.type
+							});
+						}
+					}
+					
+			    	if (json.length > 0) {
+			    		acaoAjaxAdicionarProcessoDocumento(JSON.stringify({array: json}));
+			    	}
+				});
+			},
+			errormultiple: function(files, message, xhr) {
+				console.log("errormultiple");	
+				console.log(message);
+			},
+			error: function(file, message) {
+				var node, _i, _len, _ref, _results;
+				if (file.previewElement != null) {
+					file.previewElement.classList.add("dz-error");
+					if (message && typeof message !== "String" && message.error) {
+						message = message.error;
+					}
+//					_ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+//					_results = [];
+//					for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+//						node = _ref[_i];
+//						_results.push(node.textContent = message);
+//					}
+					if(message){
+						var ul = jQuery("ul.aviso");
+						var li = this.options.errorTemplate.replace("{{mensagemErro}}", message);
+						
+						if (ul != null) {
+							ul.append(li);
+						}
+					}
+					
+					if(jQuery(file.previewElement).find("select[id$=tipoDoc]").length > 0) {
+						jQuery(file.previewElement).find("select[id$=tipoDoc] option:first").attr("selected","selected");
+					}
+					jQuery(file.previewElement).find(".dz-reset-processo-documento-servidor").click();
+				} else {
+					var ul = jQuery("ul.aviso");
+					var li = this.options.errorTemplate.replace("{{mensagemErro}}", message);
+					
+					if (ul != null) {
+						ul.append(li);
+					}
+				}
+				
+				return _results;
+			},
+			removedfile: function(file) {
+				var _ref;
+				if ((_ref = file.previewElement) != null) {
+					var preview = jQuery(file.previewElement);
+					preview.remove();
+				}
+				return this._updateMaxFilesReachedClass();
+			}
+		});
+		
+		/**
+		 * Remove o dropzone da tela.		 
+		 */
+		Dropzone.prototype.destroy = function() {
+			if (dropzone != null) {
+				dropzone.hiddenFileInput = null;
+				dropzone.element.dropzone = null;
+				dropzone = null;
+			}
+			var inputFile = jQuery(".dz-hidden-input");
+			inputFile.remove();
+		};
+		Dropzone.prototype.cancelUpload = function (fileRequest_, file_){
+			fileRequest_.upload = false;
+			file_.status = Dropzone.ERROR;
+			file_.message= '';
+			this.emit("error", file_, fileRequest_.mensagem);
+		};
+		
+		Dropzone.prototype.download = function (event, objeto) {
+			var preview = jQuery(objeto).closest("div.dz-preview");
+			var file = dropzone.obterFile(preview);
+	          var link=document.createElement('a');
+	          link.href=window.URL.createObjectURL(file);
+	          link.download=file.name;
+	          link.click();
+		};
+		
+		Dropzone.prototype.upload = function(fileRequest_, file_){
+			if (fileRequest_.upload == false) {
+				this.cancelUpload(fileRequest_, file_);
+			} else {
+				file_.status = Dropzone.SUCCESS;
+				file_.previewElement.classList.add("dz-success")
+				file_.previewElement.classList.remove("dz-error")
+				var preview = jQuery(file_.previewElement);
+				var button = preview.find(".dz-gravar-servidor");
+				button.click();
+			}
+		};
+		/**
+		 * Fun&ccedil;&atilde;o respons&aacute;vel pela valida&ccedil;&atilde;o do arquivo que ser&aacute; submetido, as valida&ccedil;ões s&atilde;o:
+		 * - Tamanho m&aacute;ximo do arquivo;
+		 * - Tipo v&aacute;lido do arquivo;
+		 * - Quantidade m&aacute;xima de uploads.
+		 */
+		Dropzone.prototype.accept = function(file, done) {
+			var mime = file.type;
+			var nome = file.name;
+			var mapa = converterStringParaMapa(this.options.maxFilesize, ",", ":");
+			var tamanhoMaximo = mapa[mime];
+			
+			// se o tamanho n&atilde;o foi determinado pelo mime, ent&atilde;o tenta pela extens&atilde;o
+			if (tamanhoMaximo == null && nome.lastIndexOf(".") > -1) {				
+				extensao = (nome.substring(nome.lastIndexOf("."))).toLowerCase();
+				tamanhoMaximo = mapa[extensao];
+			}		
+			
+			if (tamanhoMaximo != null && (file.size > tamanhoMaximo * 1024 * 1024)) {
+				var mensagem = this.options.dictFileTooBig;
+				mensagem = mensagem.replace("{{filename}}", file.name);
+				mensagem = mensagem.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100);
+				mensagem = mensagem.replace("{{maxFilesize}}", tamanhoMaximo);
+				return done(mensagem);
+			} else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
+				var tipoArquivo = tipos[file.type] != null ? tipos[file.type] : file.type; 
+				return done(this.options.dictInvalidFileType.replace("{{filename}}", file.name).replace("{{filetype}}", tipoArquivo));
+			} else if ((this.options.maxFiles != null) && this.getAcceptedFiles().length >= this.options.maxFiles) {
+				done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
+				return this.emit("maxfilesexceeded", file);
+			} else if (tamanhoMaximo == null) {
+				return done(this.options.dictMaxFilesNotFound.replace("{{filetype}}", mime));
+			} else if (nome.length > this.options.maxFileNameSize) {
+				var mensagem = this.options.dictMaxFileNameSizeError;
+				mensagem = mensagem.replace("{{filename}}", file.name);
+				mensagem = mensagem.replace("{{fileNameSize}}", this.options.maxFileNameSize);
+				return done(mensagem);
+			} else if (dropzone.obterPreview(nome) != null) {
+				return done(this.options.dictFileNameExistsError.replace("{{filename}}", file.name));
+			} else if (file.size == 0) {
+				return done(this.options.dictFileSizeZeroError.replace("{{filename}}", file.name));
+			}else if(!Dropzone.isValidFileName(file)){
+				return done(this.options.dictInvalidFileName);
+			}else {
+				return this.options.accept.call(this, file, done);
+			}
+		};
+		
+		/**
+		 * Associa um arquivo f&iacute;sico a um painel (preview) da tela, esse m&eacute;todo &eacute; usado quando a 
+		 * tela &eacute; carregada novamente, pois torna-se necess&aacute;rio associar os previews aos arquivos.
+		 */
+	    Dropzone.prototype.addFilePreview = function(previewElement, error) {
+	    	var name = jQuery(previewElement).find("div.dz-filename").text();
+	    	var size = jQuery(previewElement).find("div.dz-size").text();
+	    	var type = jQuery(previewElement).find("div.dz-type").text();
+	    	var uploaded = jQuery(previewElement).hasClass("dz-success");
+	    	var isFileInput = true;
+	    	
+			var file = this.obterFile(previewElement);
+			
+			if (file == null) {
+				file = {
+						name: name, 
+						size: size, 
+						type: type, 
+						status: Dropzone.ADDED,
+						previewElement: previewElement,
+						previewTemplate: previewElement,
+						upload: {
+							progress: 100,
+							total: size,
+							bytesSent: size}
+				};
+				isFileInput = false;
+				this.files.push(file);
+			} else {
+				file.previewElement = previewElement;
+				file.previewTemplate = previewElement;
+			}
+			previewElement.file = file;
+			
+			if(error){
+				file.status = Dropzone.ERROR;
+				file.message = error;
+			}
+			
+			if(file.status == Dropzone.SUCCESS){
+				file.previewElement.classList.add("dz-success");
+			}
+			if(file.status == Dropzone.ERROR){
+				file.previewElement.classList.add("dz-error");
+				jQuery(file.previewElement).find('.dz-error-message span:first').text(file.message);
+			}
+			var res = this.options.accept.call(this, file, (function(_this) {
+	    		return function(error) {
+	    			if (error) {
+	    				file.accepted = false;
+	    				_this._errorProcessing([file], error);
+	    			} else {
+	    				file.accepted = true;
+	    				if (_this.options.autoQueue) {
+	    					_this.enqueueFile(file);
+	    				}
+	    			}
+	    			return _this._updateMaxFilesReachedClass();
+	    		};
+	    	})(this));
+	    	
+	    	if (uploaded == false && isFileInput == false) {
+	    		this.removeFile(file);
+	    	}
+	    	return res;
+	    };
+	    
+	    
+	    /**
+	     * Sincroniza o dropzone com os elementos de tela, esse m&eacute;todo torna-se 
+	     * necess&aacute;rio quando &eacute; preciso recarregar uma tela onde o dropzone j&aacute; 
+	     * estava renderizado. Ao renderizar uma tela onde o dropzone j&aacute; estava 
+	     * atuando &eacute; necess&aacute;rio executar as seguintes a&ccedil;ões:
+	     * - Atribuir o clique do bot&atilde;o Adicionar;
+	     * - Sincronizar os previews (painel de arquivo) ao arquivo do input file.
+	     */
+	    Dropzone.prototype.sincronizar = function() {
+	    	
+	    	addFileEvent = (function(_this) {
+	            return function(e) {
+	              e.preventDefault();
+	              e.stopPropagation();
+	              _this.hiddenFileInput.click();
+	            };
+	          })(this);
+	    	var adicionar = jQuery(this.options.clickable);
+	    	return adicionar.click(addFileEvent);
+	    };
+	    
+	    /**
+	     * Retorna o file associado ao objeto passado por parâmetro. A partir do objeto ser&aacute; 
+	     * recuperado o preview.
+	     * @param objeto Preview ou um objeto interno do preview.
+	     */
+	    Dropzone.prototype.obterFile = function(objeto) {
+	    	var name = null;
+	    	
+	    	if (typeof objeto === "string") {
+	    		name = objeto;
+	    	} else {
+	    		var preview = jQuery(objeto);
+	    		
+	    		if (preview.hasClass("dz-preview") == false) {
+	    			preview = jQuery(objeto).closest("div.dz-preview");
+	    		}
+	    		name = preview.find("div.dz-filename").text();
+	    	}
+	    	var files = dropzone.files;
+	    	var file = null;
+	    	for (var indice = 0; (indice < files.length) && (file == null); indice++) {
+	    		if (files[indice].name.replace(/\s+/g, " ") == name.replace(/\s+/g, " ")) {
+	    			file = files[indice];
+	    		}
+	    	}
+	    	
+	    	return file;
+	    };
+	    
+	    /**
+	     * Retorna o preview do nome do arquivo passado por parâmetro.
+	     * @param nome Nome do arquivo.
+	     */
+	    Dropzone.prototype.obterPreview = function(nome) {
+	    	var resultado = null;
+	    	var previews = jQuery("div[id$=dz-tabela-upload]").children("div");
+	    	for (var indice = 0; indice < previews.length && resultado == null; indice++) {
+	    		var preview = jQuery(previews[indice]);
+	    		var span = preview.find("div.dz-filename span");
+	    		if (span.text().replace(/\s+/g, " ") === nome.replace(/\s+/g, " ")) {
+	    			resultado = preview;
+	    		}
+	    	}
+	    	return resultado;
+	    };
+	    
+	    if (quantidadeProcessoDocumento > 0) {
+	    	acaoSincronizarHTMLComFiles();
+	    }
+	}
+}
+
+/**
+ * Destroi o dropzone carregado na p&aacute;gina.
+ */
+function acaoDestruirDropzone() {
+	console.log('destruir dropzone');
+	if (dropzone != null) {
+		dropzone.destroy();
+	}
+}
+
+/**
+ * Sincroniza as div's 'previews' com os arquivos do input, esta fun&ccedil;&atilde;o &eacute; importante
+ * ao carregar uma tela onde o dropzone j&aacute; atuou.
+ */
+function acaoSincronizarHTMLComFiles() {
+	var previews = jQuery("div[id$=dz-tabela-upload]").children("div");
+	for (var indice = 0; indice < previews.length; indice++) {
+		var preview = previews[indice];
+		dropzone.addFilePreview(preview);
+	}
+	
+
+	if(typeof atualizaApplet === 'function'){
+		atualizaApplet(isUploadFinalizado());	
+	}
+}
+
+function isUploadFinalizado(){
+	var previews = jQuery("div[id$=dz-tabela-upload]").children("div");
+	var oks = jQuery("div[id$=dz-tabela-upload]").children("div[class$=dz-success]");
+	return oks.length == previews.length;
+}
+
+function acaoSincronizarHTMLComFile(fileName, error) {
+	var input = jQuery().find(".dz-filename").children().find("a[text='" + fileName + "']")[0];
+	var preview = jQuery(input).closest("div.dz-preview")[0];
+	dropzone.addFilePreview(preview, error);
+}
+
+/**
+ * Valida os campos obrigat&oacute;rios (tipo de documento e descri&ccedil;&atilde;o) e submete para 
+ * assinatura.
+ * 
+ * @param e Evento
+ * @returns {Boolean} Retorna falso.
+ */
+function acaoValidarEhAssinar(e) {
+	if (isCamposValidos()) {
+		functionClickAssinar(e);
+	}
+	e.preventDefault();
+	return false;
+}
+
+/**
+ * Retorna true se os campos do upload de processo documento est&atilde;o preenchidos, os 
+ * campos obrigat&oacute;rios s&atilde;o os arrolados abaixo:
+ * - Tipo de documento;
+ * - Descri&ccedil;&atilde;o.
+ * 
+ * @returns {Boolean}
+ */
+function isCamposValidos() {
+	var resultado = true;
+	var previews = jQuery("div[id$=dz-tabela-upload]").children("div");
+	for (var indice = 0; indice < previews.length; indice++) {
+		var preview = jQuery(previews[indice]);
+		var inputDescricao = preview.find("input[id$=descDoc]");
+		var inputTipoDocumento = preview.find("select[id$=tipoDoc]");
+		var spanDescricaoDocumento = preview.find("span[id$=descDocReq]");
+		var spanTipoDocumento = preview.find("span[id$=tipoDocReq]");
+		
+		var hasTipoDocumento = typeof spanTipoDocumento != 'undefined';
+		if(hasTipoDocumento){
+			spanTipoDocumento.html("");
+			spanTipoDocumento.hide();
+		}
+		spanDescricaoDocumento.html("");
+		spanDescricaoDocumento.hide();
+		
+		if(inputTipoDocumento.length > 0) {
+			if (inputTipoDocumento.val() == "org.jboss.seam.ui.NoSelectionConverter.noSelectionValue" || inputTipoDocumento.val() == "") {
+				spanTipoDocumento.show();
+				spanTipoDocumento.html("Campo obrigat&oacute;rio.");
+				resultado = false;
+			} else {
+				inputTipoDocumento.next().html("");
+			}
+		}
+		if (inputDescricao.length > 0){
+			if(inputDescricao.val() == "") {
+				spanDescricaoDocumento.show();
+				spanDescricaoDocumento.html("Campo obrigat&oacute;rio.");
+				resultado = false;
+			} else {
+				inputDescricao.next().html("");
+			}
+		}
+		
+		if(resultado){
+			var file = dropzone.obterFile(preview);
+			
+			if(file == null || file.status == Dropzone.ERROR){
+				preview.css("box-shadow","1px 1px 4px red");
+				resultado = false;
+			}else{
+				preview.style="";
+			}
+		}
+	}
+	return resultado;
+}
+
+/**
+ * A&ccedil;&atilde;o invocada para submeter o arquivo para o UploadProcessoDocumentoResource.
+ * 
+ * @param objeto Objeto de dentro do preview (div do arquivo).
+ */
+function acaoUploadProcessoDocumento(objeto) {
+	var tbody = jQuery(objeto).closest("tbody");
+	var preview = jQuery(objeto).closest("div.dz-preview");
+	var inputDescricao = tbody.find("input[id$=descDoc]");
+	var spanDescricaoDocumento = tbody.find("span[id$=descDocReq]");
+	var valorInputDescricao = inputDescricao.val();
+	var valorInputDescricaoPadrao = inputDescricao.prev().text();
+	var file = dropzone.obterFile(objeto);
+	var camposPreenchidos = true;
+	if(tbody.find("select[id$=tipoDoc]").length > 0) {
+		var inputTipoDocumento = tbody.find("select[id$=tipoDoc]");
+		var spanTipoDocumento = tbody.find("span[id$=tipoDocReq]");
+		var valorInputTipoDocumento = inputTipoDocumento.val();
+		var valorInputTipoDocumentoPadrao = inputTipoDocumento.prev().text();
+		camposPreenchidos = (valorInputTipoDocumento != "org.jboss.seam.ui.NoSelectionConverter.noSelectionValue" && valorInputTipoDocumento != "");
+	}
+	var hasTipoDocumento = typeof spanTipoDocumento != 'undefined';
+	if(hasTipoDocumento){
+		spanTipoDocumento.html("");
+		spanTipoDocumento.hide();
+	}
+	
+	spanDescricaoDocumento.html("");
+	spanDescricaoDocumento.hide();
+	
+	camposPreenchidos =  camposPreenchidos && (valorInputDescricao != "");
+	
+	if (file.status == Dropzone.ADDED || file.status == Dropzone.UPLOADING || file.status == Dropzone.SUCCESS) {
+		if(tbody.find("select[id$=tipoDoc]").length > 0) {
+			if (valorInputTipoDocumento == "org.jboss.seam.ui.NoSelectionConverter.noSelectionValue" || valorInputTipoDocumento == "") {
+				spanTipoDocumento.show();
+				spanTipoDocumento.html("Campo obrigat&oacute;rio.");
+				var option = inputTipoDocumento.find("option").filter(function() {
+					var text = jQuery(this).text();
+					return text == valorInputTipoDocumentoPadrao;
+				});
+				if (option.length > 0) {
+					option.attr("selected", true);
+					var button = preview.find("a[id$=commandLinkProcessarTipoDocumentoEhDescricao]");
+					button.click();
+					inputDescricao.focus();
+				}
+			} else {
+				if(hasTipoDocumento){
+					spanTipoDocumento.html("");
+				}
+			}
+		}
+		if (valorInputDescricao == "") {
+			spanDescricaoDocumento.show();
+			spanDescricaoDocumento.html("Campo obrigat&oacute;rio.");
+			inputDescricao.val(valorInputDescricaoPadrao);
+			var button = preview.find("a[id$=commandLinkProcessarTipoDocumentoEhDescricao]");
+			button.click();
+		} else {
+			inputDescricao.next().html("");
+		}
+	}else if (camposPreenchidos == true) {
+		dropzone.processFile(file);
+	} 
+}
+
+function atribuirValorPadrao(objeto) {
+	var campo = jQuery(objeto);
+	var spanValorPadrao = campo.prev();
+	var tipo = campo.get(0).tagName;
+	var valor = campo.val();
+	
+	if (tipo == "SELECT") {
+		if (valor != "" && valor != "org.jboss.seam.ui.NoSelectionConverter.noSelectionValue") {
+			spanValorPadrao.text(campo.find("option:selected").text());
+		}
+	} else if ("INPUT") {
+		if (valor != "") {
+			spanValorPadrao.text(valor);
+		}
+	}
+}
+
+function acaoRemover(event, objeto) {
+	var preview = jQuery(objeto).closest("div.dz-preview");
+	var file = dropzone.obterFile(preview);
+
+	var preview = file.previewElement;
+	var inputNumeroOrdem = jQuery(preview).find("input[id$=ordem]");
+	var indice = inputNumeroOrdem.val();
+	console.log("acaoRemover = "+ file.name +", "+ indice);
+	event.preventDefault();
+	event.stopPropagation();
+    
+	if (file.status === Dropzone.UPLOADING) {
+        return Dropzone.confirm(dropzone.options.dictCancelUploadConfirmation, function() {
+          return dropzone.removeFile(file);
+        });
+      } else {
+        if (dropzone.options.dictRemoveFileConfirmation) {
+          return Dropzone.confirm(dropzone.options.dictRemoveFileConfirmation, function() {
+            return dropzone.removeFile(file);
+          });
+        } else {
+          return dropzone.removeFile(file);
+        }
+      }
+}
+
+function acaoRemoverTodos() {
+	dropzone.removeAllFiles(false);	
+}

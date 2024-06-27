@@ -1,0 +1,260 @@
+function showLoading() {	
+	if ($('_viewRoot:status')) {
+		$('_viewRoot:status').style.display='none';
+	}
+	Richfaces.showModalPanel('modalStatus');
+}
+
+function hideLoading() {
+	Richfaces.hideModalPanel('modalStatus');
+	if ($('_viewRoot:status')) {
+		$('_viewRoot:status').style.display='block';
+	}
+	ajustaAlturaContentArea();
+}
+
+function validarDataPorId(id){
+	var campo = document.getElementById(id);
+	if(validarData(campo)){
+		return validarDataPassada(campo);
+	}
+	return false;
+}
+
+function verificarFaixaValor(obj1,obj2){
+  if ($(obj1).value != "" && $(obj2).value != ""){
+    var num1 = new String($(obj1).value);
+    num1 = num1.replace(/\./gi,"");
+    num1 = num1.replace(/,/gi,".");
+    var num2 = new String($(obj2).value);
+    num2 = num2.replace(/\./gi,"");
+    num2 = num2.replace(/,/gi,".");
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
+    if (num1 > num2){
+      alert("Valor inicial n\u00e3o pode ser maior que valor final.");
+      $(obj1).value="";
+      $(obj2).value="";
+      $(obj1).focus();
+    }
+  }
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function ajustaAlturaContentArea(){
+	var alturaCorpo = jQuery('body').height();
+	var alturaBanner = jQuery('header').height();
+	var alturaMenu = jQuery('.rich-toolbar').height();
+	var alturaRodape = jQuery('footer').height();
+	var alturaTab = alturaCorpo - alturaBanner - alturaMenu - alturaRodape - 10;
+	jQuery('.contentArea').height(alturaTab);
+}
+
+function refreshOpener() {
+	try {
+	   opener.refreshPage();
+	} catch (e) {}
+}
+
+if (! j$.fn.clearForm) {
+	j$.fn.clearForm = function() {
+		return this.each(function() {
+			var type = this.type; 
+			var tag = this.tagName.toLowerCase();
+			if (tag == 'form')
+				return j$(':input',this).clearForm();
+			if (type == 'text' || type == 'password' || tag == 'textarea')
+				this.value = '';
+			else if (type == 'checkbox')
+				this.checked = false;
+			else if (type == 'radio' && this.id.endsWith('0'))
+				this.checked = true;
+			else if (tag == 'select')
+				this.selectedIndex = 0;
+		});
+	}	
+}
+
+// Padroniza��o das telas de popUps
+function openPopUp(id, url, width, height) {
+	if (!width) width = 800;
+	if (!height) height = 600;
+	var featurePopUp = "width="+width + ", height="+height+", resizable=YES, scrollbars=YES, status=NO, location=NO";
+	var popUp = window.open(url, id, featurePopUp);	
+	popUp.moveTo(0, 0);
+	return popUp;
+}
+
+// Corrige as imagens *.png no IE
+function correctPNG(){
+   var browserType = navigator.appName;  
+   if (browserType == "Microsoft Internet Explorer"){  
+	   for(var i = 0; i < document.images.length; i++) {
+	      var img = document.images[i];
+	      var imgName = img.src.toUpperCase();
+	      if (imgName.substring(imgName.length-3, imgName.length) == "PNG") {
+	         var imgID = (img.id) ? "id='" + img.id + "' " : "";
+	         var imgClass = (img.className) ? "class='" + img.className + "' " : "";
+	         var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' ";
+	         var imgStyle = "display:inline-block;" + img.style.cssText;
+	         if (img.align == "left") {
+	        	 imgStyle = "float:left;" + imgStyle;
+	         }
+	         if (img.align == "right") {
+	        	 imgStyle = "float:right;" + imgStyle;
+	         }
+	         if (img.parentElement.href) {
+	        	 imgStyle = "cursor:hand;" + imgStyle;
+	         }	         
+	         var strNewHTML = "<span " + imgID + imgClass + imgTitle
+	         	+ " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
+	         	+ "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
+	         	+ "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>";
+	         img.outerHTML = strNewHTML;
+	         i = i - 1;
+	      }
+	   }
+   }
+}
+try{
+	window.attachEvent("onload", correctPNG);
+} catch(e) {}
+
+// Faz o escape dos : dos ids dos componentes JSF, para poder usar com o jQuery
+function escapeClientId(id) {
+	return id.replace(/:/g,"\\:");
+}
+
+/**
+ * Função responsável em fazer o parser de uma string para mapa.
+ * Exemplo:
+ * var mapa = converterStringParaMapa("chave1=valor1;chave2=valor2", ";", "=")
+ * @param string String que será convertida.
+ * @param separadorRegistro Separador de registros.
+ * @param separadorPar Separador entre chave/valor.
+ * @returns {Object} Mapa.
+ */
+function converterStringParaMapa(string, separadorRegistro, separadorPar) {
+	var mapa = new Object();
+	
+	if (string != null && separadorRegistro != null && separadorPar != null) {
+		var registros = string.split(separadorRegistro);
+		for (var indice = 0; indice < registros.length; indice++) {
+			var chaveValor = registros[indice].split(separadorPar);
+			if (chaveValor != null && chaveValor.length == 2) {
+				var chave = unescape( chaveValor[0] );
+				var valor = unescape( chaveValor[1] );
+				valor = valor.replace(/\+/g, ' ');
+				mapa[chave] = valor;
+			}
+		}
+	}
+	return mapa;
+}
+
+function exibirMensagemDialog(message, headerTextColor, panelBorderColor, headerBackgroundColor, idForm, onCloseCallBack){
+	var divDialogMessage = document.createElement('div');
+	divDialogMessage.style = "position: fixed ! important; top: 36%! important; left:36%;width:300px;height:auto;min-height:100px;background-color:white;" 
+							+ " border:1px solid #BCC1BD;font-size:11px;padding:2px;z-index:10000;";
+	divDialogMessage.className = "dialogMessage"; 
+	divDialogMessage.id = idForm + 'divDialogMessage';
+	divDialogMessage.addEventListener('onclose', onCloseCallBack);
+	var divTitle = document.createElement('div');
+	divTitle.innerHTML = "Mensagem";
+	divTitle.className="title";
+	divTitle.style = "height:18px;font-weight:bold;height:18px;font-weight:bold;"
+					+ "color:" + headerTextColor + ";border:1px solid " + panelBorderColor + ";background-color:" + headerBackgroundColor ;
+	var imgClose = document.createElement('img');
+	imgClose.src = '../img/closeMP.gif';
+	imgClose.onclick = function() { 
+		element =  jQuery(".dialogMessage");
+		document.body.removeChild(element[0]); 
+		if(onCloseCallBack){
+			onCloseCallBack();
+		}
+	}
+	imgClose.style = "float: right; margin-top: 1px; margin-right: 1px; cursor: pointer;";
+	divTitle.appendChild(imgClose);
+	divDialogMessage.appendChild(divTitle);
+	var divMessage =  document.createElement('div');
+	divMessage.style = "overflow:auto;";
+	var dlMessage = document.createElement('dl');
+	divMessage.className = "rich-messages";
+	divMessage.style="margin: 5px;";
+	var dlMessage = document.createElement('dl');
+	dlMessage.className = "rich-messages";
+	dlMessage.style="margin: 5px;";
+	var dtMessage = document.createElement('dt');
+	dtMessage.className = " formMessage";
+	var spanText = document.createElement('span');
+	spanText.className = "rich-messages-label";
+	spanText.innerHTML = message;
+	dtMessage.appendChild(spanText);
+	dlMessage.appendChild(dtMessage);
+	divMessage.appendChild(dlMessage);
+	divDialogMessage.appendChild(divMessage);
+	
+	document.body.appendChild(divDialogMessage);
+	setTimeout("closeMessage('" + divDialogMessage.id + "')" , 6000);
+}
+
+
+function closeMessage(idDivDialogMessage){
+	var divDialogMessage = document.getElementById(idDivDialogMessage);
+	if(divDialogMessage){
+		var event = new Event('onclose');
+		divDialogMessage.dispatchEvent(event);
+		document.body.removeChild(divDialogMessage);
+		
+	}
+	
+}
+
+function exibirMensagemError(message, headerTextColor, panelBorderColor, headerBackgroundColor, imgSrc){
+	var divDialogMessage = document.createElement('div');
+	divDialogMessage.style = "position: fixed ! important; top: 36%! important; left:36%;width:300px;height:auto;min-height:100px;background-color:white;" 
+							+ " border:1px solid #BCC1BD;font-size:11px;padding:2px;z-index:10000;";
+	divDialogMessage.className = "dialogMessage";
+	var divTitle = document.createElement('div');
+	divTitle.innerHTML = "Mensagem";
+	divTitle.className="title";
+	divTitle.style = "height:18px;font-weight:bold;height:18px;font-weight:bold;"
+					+ "color:" + headerTextColor + ";border:1px solid " + panelBorderColor + ";background-color:" + headerBackgroundColor ;
+	var imgClose = document.createElement('img');
+	imgClose.src = imgSrc;
+	imgClose.onclick = function() { 
+		element =  jQuery(".dialogMessage");
+		document.body.removeChild(element[0]); 
+	}
+	imgClose.style = "float: right; margin-top: 1px; margin-right: 1px; cursor: pointer;";
+	divTitle.appendChild(imgClose);
+	divDialogMessage.appendChild(divTitle);
+	var divMessage =  document.createElement('div');
+	divMessage.style = "overflow:auto;";
+	var dlMessage = document.createElement('dl');
+	divMessage.className = "rich-messages";
+	divMessage.style="margin: 5px;";
+	var dlMessage = document.createElement('dl');
+	dlMessage.className = "rich-messages";
+	dlMessage.style="margin: 5px;";
+	var dtMessage = document.createElement('dt');
+	dtMessage.className = "error formMessage";
+	var spanText = document.createElement('span');
+	spanText.className = "rich-messages-label";
+	spanText.innerHTML = message;
+	dtMessage.appendChild(spanText);
+	dlMessage.appendChild(dtMessage);
+	divMessage.appendChild(dlMessage);
+	divDialogMessage.appendChild(divMessage);
+	
+
+	document.body.appendChild(divDialogMessage); 
+}
+
+
